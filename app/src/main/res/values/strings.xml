@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="welcome">Welcome!</string>
+    <color name="white">#FFFFFF</color>
+    <string name="txtWelcome">Welcome!</string>
+    <string name="txt_nameRequest">Please enter your name:</string>
+    <string name="txt_ageRequest">Please enter your age:</string>
+    <string name="btn_submit">Submit</string>
 </resources>
