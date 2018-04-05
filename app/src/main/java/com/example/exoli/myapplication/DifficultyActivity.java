@@ -9,13 +9,14 @@ import android.widget.TextView;
 
 public class DifficultyActivity extends AppCompatActivity {
 
-    static String name;
-    static String age;
-    static String str;
-    TextView txt;
-    Button btnEasy;
-    Button btnMedium;
-    Button btnHard;
+    private static String name;
+    private static String age;
+    private static String str;
+    private TextView txt;
+    private Button btnEasy;
+    private Button btnMedium;
+    private Button btnHard;
+    private View.OnClickListener ocl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +24,47 @@ public class DifficultyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_difficulty);
         bindUI();
 
-        //TODO easy, medium, hard
+        ocl = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int id = v.getId();
+                switch (id) {
+                    case R.id.btnEasy:
+                        goToEasyMode();
+                        break;
+                    case R.id.btnMedium:
+                        goToMediumMode();
+                        break;
+                    case R.id.btnHard:
+//                        goToHardMode();
+                        break;
+                }
+            }
+        };
+
+        btnEasy.setOnClickListener(ocl);
+        btnMedium.setOnClickListener(ocl);
+        btnHard.setOnClickListener(ocl);
 
     }
+
+    private void goToEasyMode() {
+        Intent  intent = new Intent(this, EasyModeActivity.class);
+        intent.putExtra("NAME" ,name);
+        startActivity(intent);
+    }
+
+    private void goToMediumMode() {
+        Intent  intent = new Intent(this, MediumModeActivity.class);
+        intent.putExtra("NAME" ,name);
+        startActivity(intent);
+    }
+//
+//    private void goToHardMode() {
+//        Intent  intent = new Intent(this, HardModeActivity.class);
+//        intent.putExtra("NAME" ,name);
+//        startActivity(intent);
+//    }
 
     private void bindUI() {
         Bundle data = getIntent().getExtras();
