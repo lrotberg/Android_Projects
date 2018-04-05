@@ -16,7 +16,6 @@ public class DifficultyActivity extends AppCompatActivity {
     Button btnEasy;
     Button btnMedium;
     Button btnHard;
-    Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +25,6 @@ public class DifficultyActivity extends AppCompatActivity {
 
         //TODO easy, medium, hard
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               finish();
-            }
-        });
     }
 
     private void bindUI() {
@@ -46,6 +39,5 @@ public class DifficultyActivity extends AppCompatActivity {
         btnEasy = (Button)findViewById(R.id.btnEasy);
         btnMedium = (Button)findViewById(R.id.btnMedium);
         btnHard = (Button)findViewById(R.id.btnHard);
-        btnBack = (Button)findViewById(R.id.btnBack);
     }
 }

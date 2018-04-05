@@ -8,5 +8,4 @@
     <string name="btn_easy">Easy</string>
     <string name="btn_medium">Medium</string>
     <string name="btn_hard">Hard</string>
-    <string name="btn_back">Back</string>
 </resources>
