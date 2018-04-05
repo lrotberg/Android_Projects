@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -26,13 +25,20 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToDifficultyActivity();
+                if(edtName.getText().length() == 0)
+                    edtName.setError("Please enter a name");
+                else if(edtAge.getText().length() == 0)
+                    edtAge.setError("Please enter your age");
+                else
+                    goToDifficultyActivity();
             }
         });
     }
 
     private void goToDifficultyActivity() {
         Intent  intent = new Intent(this, DifficultyActivity.class);
+        intent.putExtra("NAME" ,edtName.getText().toString());
+        intent.putExtra("AGE" ,edtAge.getText().toString());
         startActivity(intent);
     }
 
