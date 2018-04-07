@@ -36,7 +36,7 @@ public class DifficultyActivity extends AppCompatActivity {
                         goToMediumMode();
                         break;
                     case R.id.btnHard:
-//                        goToHardMode();
+                        goToHardMode();
                         break;
                 }
             }
@@ -59,12 +59,12 @@ public class DifficultyActivity extends AppCompatActivity {
         intent.putExtra("NAME" ,name);
         startActivity(intent);
     }
-//
-//    private void goToHardMode() {
-//        Intent  intent = new Intent(this, HardModeActivity.class);
-//        intent.putExtra("NAME" ,name);
-//        startActivity(intent);
-//    }
+
+    private void goToHardMode() {
+        Intent  intent = new Intent(this, HardModeActivity.class);
+        intent.putExtra("NAME" ,name);
+        startActivity(intent);
+    }
 
     private void bindUI() {
         Bundle data = getIntent().getExtras();

@@ -1,14 +1,26 @@
 package com.example.exoli.myapplication;
 
+import android.content.Context;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class EasyModeActivity extends AppCompatActivity {
 
     private TextView txtTimeEasy;
     private TextView txtNameEasy;
+    private final int EASY_TIME = 31;
+    private final int ARR_SIZE = 8;
+    private final int NUM_OF_COUPLES = 4;
+    private CountDownTimer cdt;
+    private ImageButton[] ib;
+    private ArrayList<Integer> imageID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +29,7 @@ public class EasyModeActivity extends AppCompatActivity {
 
         bindUI();
 
-        new CountDownTimer(30*1000,1000) {
+        cdt = new CountDownTimer(EASY_TIME*1000,1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -29,7 +41,8 @@ public class EasyModeActivity extends AppCompatActivity {
                 txtTimeEasy.setText("Time is up!");
                 finish();
             }
-        }.start();
+        };
+        cdt.start();
     }
 
     private void bindUI() {
@@ -37,5 +50,44 @@ public class EasyModeActivity extends AppCompatActivity {
         txtTimeEasy = (TextView)findViewById(R.id.txtTimeEasy);
         txtNameEasy = (TextView)findViewById(R.id.txtNameEasy);
         txtNameEasy.setText((String)data.get("NAME"));
+
+        imageID = new ArrayList<Integer>(8);
+        setImages(imageID);
+        Collections.shuffle(imageID);
+
+        ib = new ImageButton[ARR_SIZE];
+        setButtons(ib);
     }
+
+    private void setImages(ArrayList<Integer> images) {
+        for (int i = 0 ; i < NUM_OF_COUPLES ; i++){
+            String temp = "btn_" + i;
+            Context c = getApplicationContext();
+            int id = c.getResources().getIdentifier("drawable/"+temp, null, c.getPackageName());
+            imageID.add(id);
+        }
+
+        for (int i = ARR_SIZE - NUM_OF_COUPLES ,  j = 0 ; i < ARR_SIZE ; i++, j++) {
+            imageID.add(imageID.get(j));
+        }
+    }
+
+
+    private void setButtons(ImageButton[] buttons) {
+        for (int i = 0 ; i < ib.length ; i++){
+            String temp = "ib_" + i;
+            Context c = getApplicationContext();
+            int id = c.getResources().getIdentifier("id/"+temp, null, c.getPackageName());
+            ib[i] = (ImageButton)findViewById(id);
+            //ib[i].setImageResource(imageID.get(i));
+            final int finalI = i;
+            ib[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ib[finalI].setImageResource(imageID.get(finalI));
+                }
+            });
+        }
+    }
+
 }

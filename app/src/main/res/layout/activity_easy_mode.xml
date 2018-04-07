@@ -33,4 +33,83 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="268dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageButton
+                android:id="@+id/ib_0"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_margin="5dp" />
+
+            <ImageButton
+                android:id="@+id/ib_1"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_margin="5dp" />
+
+            <ImageButton
+                android:id="@+id/ib_2"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_margin="5dp"  />
+
+            <ImageButton
+                android:id="@+id/ib_3"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_margin="5dp"  />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageButton
+                android:id="@+id/ib_4"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_margin="5dp" />
+
+            <ImageButton
+                android:id="@+id/ib_5"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_margin="5dp" />
+
+            <ImageButton
+                android:id="@+id/ib_6"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_margin="5dp"  />
+
+            <ImageButton
+                android:id="@+id/ib_7"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_margin="5dp"  />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </TableLayout>
+
 </android.support.constraint.ConstraintLayout>

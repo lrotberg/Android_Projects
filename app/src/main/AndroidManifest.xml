@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".DifficultyActivity" />
         <activity android:name=".EasyModeActivity" />
-        <activity android:name=".MediumModeActivity"></activity>
+        <activity android:name=".MediumModeActivity" />
+        <activity android:name=".HardModeActivity"></activity>
     </application>
 
 </manifest>
