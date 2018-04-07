@@ -21,6 +21,7 @@ public class EasyModeActivity extends AppCompatActivity {
     private CountDownTimer cdt;
     private ImageButton[] ib;
     private ArrayList<Integer> imageID;
+    private ArrayList<Integer> flippedButtons = new ArrayList<Integer>(2);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,27 +65,42 @@ public class EasyModeActivity extends AppCompatActivity {
             String temp = "btn_" + i;
             Context c = getApplicationContext();
             int id = c.getResources().getIdentifier("drawable/"+temp, null, c.getPackageName());
-            imageID.add(id);
+            images.add(id);
         }
 
         for (int i = ARR_SIZE - NUM_OF_COUPLES ,  j = 0 ; i < ARR_SIZE ; i++, j++) {
-            imageID.add(imageID.get(j));
+            images.add(images.get(j));
         }
     }
 
 
-    private void setButtons(ImageButton[] buttons) {
-        for (int i = 0 ; i < ib.length ; i++){
+    private void setButtons(final ImageButton[] buttons) {
+        for (int i = 0 ; i < buttons.length ; i++){
             String temp = "ib_" + i;
             Context c = getApplicationContext();
             int id = c.getResources().getIdentifier("id/"+temp, null, c.getPackageName());
-            ib[i] = (ImageButton)findViewById(id);
-            //ib[i].setImageResource(imageID.get(i));
+            buttons[i] = (ImageButton)findViewById(id);
+            buttons[i].setImageResource(R.color.white);
             final int finalI = i;
-            ib[i].setOnClickListener(new View.OnClickListener() {
+            buttons[i].setOnClickListener(new View.OnClickListener() {
+                int counter = 0;
                 @Override
                 public void onClick(View v) {
-                    ib[finalI].setImageResource(imageID.get(finalI));
+                    buttons[finalI].setImageResource(imageID.get(finalI));
+                    flippedButtons.add(finalI);
+                    counter++;
+                    if (counter == 2) {
+                        if (!(buttons[flippedButtons.get(0)] == (buttons[flippedButtons.get(1)]))) {
+                            buttons[flippedButtons.get(0)].setImageResource(R.color.white);
+                            buttons[flippedButtons.get(1)].setImageResource(R.color.white);
+                        }
+                        else {
+                            buttons[flippedButtons.get(0)].setClickable(false);
+                            buttons[flippedButtons.get(1)].setClickable(false);
+                        }
+                        flippedButtons.clear();
+                        counter = 0;
+                    }
                 }
             });
         }
