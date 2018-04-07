@@ -1,5 +1,6 @@
 <resources>
     <color name="white">#ffffff</color>
+    <color name="yellow">#ffe121</color>
     <string name="app_name">My Application</string>
     <string name="txt_Welcome">Welcome!</string>
     <string name="txt_nameRequest">Please enter your name\n(max 10 letters):</string>
