@@ -12,6 +12,11 @@ public class DifficultyActivity extends AppCompatActivity {
     private static String name;
     private static String age;
     private static String str;
+    private final int EASY_ROWS = 2;
+    private final int EASY_COLS = 4;
+    private final int MEDIUM_ROWS_COLS = 2;
+    private final int HARD_ROWS = 4;
+    private final int COLS_ROWS = 5;
     private TextView txt;
     private Button btnEasy;
     private Button btnMedium;
@@ -49,8 +54,10 @@ public class DifficultyActivity extends AppCompatActivity {
     }
 
     private void goToEasyMode() {
-        Intent  intent = new Intent(this, EasyModeActivity.class);
+        Intent  intent = new Intent(this, GameActivity.class);
         intent.putExtra("NAME" ,name);
+        intent.putExtra("ROWS", EASY_ROWS);
+        intent.putExtra("COLS", EASY_COLS);
         startActivity(intent);
     }
 

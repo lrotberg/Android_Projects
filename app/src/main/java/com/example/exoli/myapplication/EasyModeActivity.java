@@ -4,8 +4,11 @@ import android.content.Context;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -79,6 +82,7 @@ public class EasyModeActivity extends AppCompatActivity {
             String temp = "ib_" + i;
             Context c = getApplicationContext();
             int id = c.getResources().getIdentifier("id/"+temp, null, c.getPackageName());
+            buttons[i] = new ImageButton(getApplicationContext());
             buttons[i] = (ImageButton)findViewById(id);
             buttons[i].setImageResource(R.color.white);
             final int finalI = i;
