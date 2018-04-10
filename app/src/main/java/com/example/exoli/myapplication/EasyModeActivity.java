@@ -4,11 +4,8 @@ import android.content.Context;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -51,8 +48,8 @@ public class EasyModeActivity extends AppCompatActivity {
 
     private void bindUI() {
         Bundle data = getIntent().getExtras();
-        txtTimeEasy = (TextView)findViewById(R.id.txtTimeEasy);
-        txtNameEasy = (TextView)findViewById(R.id.txtNameEasy);
+        txtTimeEasy = (TextView)findViewById(R.id.txtTime);
+        txtNameEasy = (TextView)findViewById(R.id.txtName);
         txtNameEasy.setText((String)data.get("NAME"));
 
         imageID = new ArrayList<Integer>(8);

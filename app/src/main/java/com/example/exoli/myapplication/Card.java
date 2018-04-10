@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 
 public class Card extends android.support.v7.widget.AppCompatImageButton {
 
-    boolean isFlipped;
+    private boolean isFlipped = false;
 
     public Card(Context context) {
         super(context);
@@ -17,5 +17,16 @@ public class Card extends android.support.v7.widget.AppCompatImageButton {
 
     public Card(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public void flip() {
+        if(this.isFlipped() == true)
+            this.isFlipped = false;
+        else
+            this.isFlipped = true;
+    }
+
+    public boolean isFlipped() {
+        return isFlipped;
     }
 }
