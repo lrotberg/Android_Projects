@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,14 +71,23 @@ public class GameActivity extends AppCompatActivity {
 
     private void setCards(ArrayList<Card> cards, int numOfCards) {
         for (int i = 0 ; i < numOfCards ; i++) {
-            Card tempCard = new Card(this);
-            tempCard.setImageResource(getImages()[i]);
+            final Card tempCard = new Card(this);
+            tempCard.setImageID(getImages()[i]);
+
+            tempCard.setOnClickListener(new ImageButton.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tempCard.flip();
+                }
+            });
+
             cards.add(tempCard);
         }
         Collections.shuffle(cards);
 
-        for(Card c: cards)
+        for(Card c : cards) {
             layout.addView(c);
+        }
     }
 
     public int[] getImages() {

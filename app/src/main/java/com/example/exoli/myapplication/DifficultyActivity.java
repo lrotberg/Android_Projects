@@ -15,8 +15,8 @@ public class DifficultyActivity extends AppCompatActivity {
     private final int EASY_ROWS = 2;
     private final int EASY_COLS = 4;
     private final int MEDIUM_ROWS_COLS = 4;
-    private final int HARD_ROWS = 4;
-    private final int HARD_COLS = 5;
+    private final int HARD_ROWS = 5;
+    private final int HARD_COLS = 4;
     private final int EASY_TIME = 31;
     private final int MEDIUM_TIME = 46;
     private final int HARD_TIME = 61;
