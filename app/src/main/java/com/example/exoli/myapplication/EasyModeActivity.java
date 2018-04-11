@@ -48,8 +48,8 @@ public class EasyModeActivity extends AppCompatActivity {
 
     private void bindUI() {
         Bundle data = getIntent().getExtras();
-        txtTimeEasy = (TextView)findViewById(R.id.txtTimeEasy);
-        txtNameEasy = (TextView)findViewById(R.id.txtNameEasy);
+        txtTimeEasy = (TextView)findViewById(R.id.txtTime);
+        txtNameEasy = (TextView)findViewById(R.id.txtName);
         txtNameEasy.setText((String)data.get("NAME"));
 
         imageID = new ArrayList<Integer>(8);
@@ -79,6 +79,7 @@ public class EasyModeActivity extends AppCompatActivity {
             String temp = "ib_" + i;
             Context c = getApplicationContext();
             int id = c.getResources().getIdentifier("id/"+temp, null, c.getPackageName());
+            buttons[i] = new ImageButton(getApplicationContext());
             buttons[i] = (ImageButton)findViewById(id);
             buttons[i].setImageResource(R.color.white);
             final int finalI = i;

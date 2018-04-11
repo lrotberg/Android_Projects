@@ -12,11 +12,19 @@ public class DifficultyActivity extends AppCompatActivity {
     private static String name;
     private static String age;
     private static String str;
+    private final int EASY_ROWS = 2;
+    private final int EASY_COLS = 4;
+    private final int MEDIUM_ROWS_COLS = 4;
+    private final int HARD_ROWS = 5;
+    private final int HARD_COLS = 4;
+    private final int EASY_TIME = 31;
+    private final int MEDIUM_TIME = 46;
+    private final int HARD_TIME = 61;
     private TextView txt;
     private Button btnEasy;
     private Button btnMedium;
     private Button btnHard;
-    private View.OnClickListener ocl;
+    private Button.OnClickListener ocl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +32,7 @@ public class DifficultyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_difficulty);
         bindUI();
 
-        ocl = new View.OnClickListener() {
+        ocl = new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int id = v.getId();
@@ -49,20 +57,29 @@ public class DifficultyActivity extends AppCompatActivity {
     }
 
     private void goToEasyMode() {
-        Intent  intent = new Intent(this, EasyModeActivity.class);
+        Intent  intent = new Intent(this, GameActivity.class);
         intent.putExtra("NAME" ,name);
+        intent.putExtra("ROWS", EASY_ROWS);
+        intent.putExtra("COLS", EASY_COLS);
+        intent.putExtra("TIME", EASY_TIME);
         startActivity(intent);
     }
 
     private void goToMediumMode() {
-        Intent  intent = new Intent(this, MediumModeActivity.class);
+        Intent  intent = new Intent(this, GameActivity.class);
         intent.putExtra("NAME" ,name);
+        intent.putExtra("ROWS", MEDIUM_ROWS_COLS);
+        intent.putExtra("COLS", MEDIUM_ROWS_COLS);
+        intent.putExtra("TIME", MEDIUM_TIME);
         startActivity(intent);
     }
 
     private void goToHardMode() {
-        Intent  intent = new Intent(this, HardModeActivity.class);
+        Intent  intent = new Intent(this, GameActivity.class);
         intent.putExtra("NAME" ,name);
+        intent.putExtra("ROWS", HARD_ROWS);
+        intent.putExtra("COLS", HARD_COLS);
+        intent.putExtra("TIME", HARD_TIME);
         startActivity(intent);
     }
 
