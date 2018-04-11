@@ -45,7 +45,7 @@ public class GameActivity extends AppCompatActivity {
         txtName.setText(data.getString("NAME"));
         txtTime = (TextView)findViewById(R.id.txtTimeGame);
 
-        CountDownTimer cdt = new CountDownTimer(data.getInt("TIME")*1000,1000) {
+        CountDownTimer gameTime = new CountDownTimer(data.getInt("TIME")*1000,1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -57,8 +57,10 @@ public class GameActivity extends AppCompatActivity {
                 finish();
                 Toast.makeText(getApplicationContext(), "Game Over", Toast.LENGTH_LONG).show();
             }
+
+
         };
-        cdt.start();
+        gameTime.start();
 
         numOfCouples = ((layout.getColumnCount() * layout.getRowCount()) / 2);
 
