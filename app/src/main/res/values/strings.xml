@@ -7,4 +7,6 @@
     <string name="btn_easy">Easy</string>
     <string name="btn_medium">Medium</string>
     <string name="btn_hard">Hard</string>
+    <string name="game_win">Game Over - You Won!</string>
+    <string name="game_lose">Game Over - You Lost!</string>
 </resources>

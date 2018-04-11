@@ -2,6 +2,7 @@ package com.example.exoli.myapplication;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,9 +21,13 @@ public class GameActivity extends AppCompatActivity {
     private GridLayout layout;
     private int[] images;
     private int numOfCouples;
-    private ArrayList<Card> cards;
+    private ArrayList<Card> cardsArrayList;
     private TextView txtTime;
     private TextView txtName;
+    private Card card1;
+    private Card card2;
+    private int counter = 0;
+    private CountDownTimer gameTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,12 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         bindUI();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameTime.cancel();
     }
 
     private void bindUI() {
@@ -42,10 +53,10 @@ public class GameActivity extends AppCompatActivity {
         layout.setColumnCount(data.getInt("COLS"));
 
         txtName = (TextView)findViewById(R.id.txtNameGame);
-        txtName.setText(data.getString("NAME"));
+        txtName.setText(getName());
         txtTime = (TextView)findViewById(R.id.txtTimeGame);
 
-        CountDownTimer gameTime = new CountDownTimer(data.getInt("TIME")*1000,1000) {
+        gameTime = new CountDownTimer(data.getInt("TIME")*1000,1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -55,7 +66,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 finish();
-                Toast.makeText(getApplicationContext(), "Game Over", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.game_lose, Toast.LENGTH_LONG).show();
             }
 
 
@@ -67,8 +78,8 @@ public class GameActivity extends AppCompatActivity {
         images = new int[numOfCouples * 2];
         setImages(images, numOfCouples);
 
-        cards = new ArrayList<Card>();
-        setCards(cards, numOfCouples * 2);
+        cardsArrayList = new ArrayList<Card>();
+        setCards(cardsArrayList, numOfCouples * 2);
     }
 
     private void setCards(ArrayList<Card> cards, int numOfCards) {
@@ -76,12 +87,7 @@ public class GameActivity extends AppCompatActivity {
             final Card tempCard = new Card(this);
             tempCard.setImageID(getImages()[i]);
 
-            tempCard.setOnClickListener(new ImageButton.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    tempCard.flip();
-                }
-            });
+            tempCard.setOnClickListener(new CardOnClickListener(tempCard));
 
             cards.add(tempCard);
         }
@@ -92,11 +98,13 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int[] getImages() {
         return images;
     }
-
-
 
     private void setImages(int[] images, int numOfCouples) {
         for (int i = 0, j = ((this.numOfCouples * 2) - numOfCouples); i < numOfCouples; i++, j++){
@@ -114,5 +122,73 @@ public class GameActivity extends AppCompatActivity {
 
     public void setLayout(GridLayout layout) {
         this.layout = layout;
+    }
+
+    protected void raiseCounter() {
+        this.counter++;
+    }
+
+
+    class CardOnClickListener implements ImageButton.OnClickListener {
+
+        private Card card;
+
+        public CardOnClickListener(Card card) {
+            this.card = card;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(!card.isFlipped()) {
+                card.flip();
+                raiseCounter();
+            }
+            checkMatched(card);
+        }
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    private void checkMatched(Card card) {
+        if(getCounter() % 2 != 0)
+            card1 = card;
+        else
+            card2 = card;
+
+        if(card1 != null && card2 != null) {
+            if (card1.equals(card2)) {
+                card1.setShowen();
+                card1 = null;
+                card2.setShowen();
+                card2 = null;
+                if(checkIfGameOver()) {
+                    finish();
+                    Toast.makeText(getApplicationContext(), R.string.game_win, Toast.LENGTH_LONG).show();
+                }
+            }
+            else {
+                Handler handler = new Handler();
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        card1.flip();
+                        card1 = null;
+                        card2.flip();
+                        card2 = null;
+                    }
+                };
+                handler.postDelayed(runnable, 1 * 1000);
+            }
+        }
+    }
+
+    private boolean checkIfGameOver() {
+        for(Card card : cardsArrayList) {
+            if(!card.isShowen())
+                return false;
+        }
+        return true;
     }
 }
