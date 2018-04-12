@@ -179,7 +179,7 @@ public class GameActivity extends AppCompatActivity {
                         card2 = null;
                     }
                 };
-                handler.postDelayed(runnable, 1 * 1000);
+                handler.postDelayed(runnable, 500);
             }
         }
     }
