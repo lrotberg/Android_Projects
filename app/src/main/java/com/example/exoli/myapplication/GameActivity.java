@@ -17,6 +17,7 @@ import java.util.Collections;
 
 public class GameActivity extends AppCompatActivity {
 
+    private static final int FLIP_TIME = 250;
     private String name;
     private GridLayout layout;
     private int[] images;
@@ -143,7 +144,12 @@ public class GameActivity extends AppCompatActivity {
                 card.flip();
                 raiseCounter();
             }
-            checkMatched(card);
+            if(getCounter() % 2 != 0)
+                card1 = card;
+            else {
+                card2 = card;
+                checkMatched(card);
+            }
         }
     }
 
@@ -152,11 +158,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void checkMatched(Card card) {
-        if(getCounter() % 2 != 0)
-            card1 = card;
-        else
-            card2 = card;
-
         if(card1 != null && card2 != null) {
             if (card1.equals(card2)) {
                 card1.setShowen();
@@ -179,7 +180,7 @@ public class GameActivity extends AppCompatActivity {
                         card2 = null;
                     }
                 };
-                handler.postDelayed(runnable, 500);
+                handler.postDelayed(runnable, FLIP_TIME);
             }
         }
     }
