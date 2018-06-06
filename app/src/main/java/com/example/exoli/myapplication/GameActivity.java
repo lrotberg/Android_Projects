@@ -14,12 +14,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import tyrantgit.explosionfield.ExplosionField;
+
 
 public class GameActivity extends AppCompatActivity {
 
     private static final int FLIP_TIME = 500;
+    private static final int FINISH_DELAY = 2000;
     private String name;
-    private GridLayout layout;
+    private GridLayout gridLayout;
     private int[] images;
     private int numOfCouples;
     private ArrayList<Card> cardsArrayList;
@@ -46,12 +49,12 @@ public class GameActivity extends AppCompatActivity {
 
     private void bindUI() {
         setContentView(R.layout.activity_game);
-        layout = (GridLayout)findViewById(R.id.glGame);
+        gridLayout = (GridLayout)findViewById(R.id.glGame);
 
         Bundle data = getIntent().getExtras();
         name = data.getString("NAME");
-        layout.setRowCount(data.getInt("ROWS"));
-        layout.setColumnCount(data.getInt("COLS"));
+        gridLayout.setRowCount(data.getInt("ROWS"));
+        gridLayout.setColumnCount(data.getInt("COLS"));
 
         txtName = (TextView)findViewById(R.id.txtNameGame);
         txtName.setText(name);
@@ -68,16 +71,18 @@ public class GameActivity extends AppCompatActivity {
             public void onFinish() {
                 Toast.makeText(GameActivity.this, R.string.game_lose, Toast.LENGTH_LONG).show();
                 enableCards(false);
+                ExplosionField explosionField = ExplosionField.attach2Window(GameActivity.this);
+                explosionField.explode(gridLayout);
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         finish();
                     }
-                }, 2000);
+                }, FINISH_DELAY);
             }
         }.start();
 
-        numOfCouples = ((layout.getColumnCount() * layout.getRowCount()) / 2);
+        numOfCouples = ((gridLayout.getColumnCount() * gridLayout.getRowCount()) / 2);
 
         images = new int[numOfCouples * 2];
         setImages(images, numOfCouples);
@@ -95,7 +100,7 @@ public class GameActivity extends AppCompatActivity {
         Collections.shuffle(cards);
 
         for(Card c : cards) {
-            layout.addView(c);
+            gridLayout.addView(c);
         }
     }
 
@@ -154,7 +159,7 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
                 finish();
             }
-        }, 2000);
+        }, FINISH_DELAY);
     }
 
     private void checkMatched() {

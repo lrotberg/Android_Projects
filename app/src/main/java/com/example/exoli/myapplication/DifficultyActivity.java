@@ -87,7 +87,7 @@ public class DifficultyActivity extends AppCompatActivity {
         Bundle data = getIntent().getExtras();
         name = (String)data.get("NAME");
         age = (String)data.get("AGE");
-        str = String.format("Hello %s(%s) please choose a difficulty",name,age);
+        str = String.format("Hello %s(%s) please choose a difficulty", name, age);
 
         txt = (TextView)findViewById(R.id.txt1);
         txt.setText(str);
