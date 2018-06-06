@@ -11,4 +11,5 @@
     <string name="game_lose">Game Over - You Lost\n\nWelcome To The Dark Side!</string>
     <string name="enter_your_name">Enter Your Name</string>
     <string name="enter_your_age">Enter Your Age</string>
+    <string name="remaining_time">seconds remaining:</string>
 </resources>

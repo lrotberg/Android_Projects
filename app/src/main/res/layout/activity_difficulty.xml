@@ -2,22 +2,16 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_image"
-    android:scaleType = "centerCrop"
+    style="@style/background_style"
     tools:context="com.example.exoli.myapplication.DifficultyActivity">
 
 
     <TextView
+        style="@style/text_style"
         android:id="@+id/txt1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="72dp"
-        android:textColor="@color/yellow"
-        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.113"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,35 +32,23 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
+            style="@style/diff_btn_style"
             android:id="@+id/btnEasy"
-            android:layout_width="150dp"
-            android:layout_height="55dp"
             android:text="@string/btn_easy"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:textSize="28sp"
             tools:layout_editor_absoluteX="82dp"
             tools:layout_editor_absoluteY="389dp" />
 
         <Button
+            style="@style/diff_btn_style"
             android:id="@+id/btnMedium"
-            android:layout_width="150dp"
-            android:layout_height="55dp"
             android:text="@string/btn_medium"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:textSize="28sp"
             tools:layout_editor_absoluteX="248dp"
             tools:layout_editor_absoluteY="216dp" />
 
         <Button
+            style="@style/diff_btn_style"
             android:id="@+id/btnHard"
-            android:layout_width="150dp"
-            android:layout_height="55dp"
             android:text="@string/btn_hard"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:textSize="28sp"
             tools:layout_editor_absoluteX="248dp"
             tools:layout_editor_absoluteY="292dp" />
     </LinearLayout>

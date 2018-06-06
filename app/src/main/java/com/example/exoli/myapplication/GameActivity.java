@@ -61,7 +61,7 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onTick(long millisUntilFinished) {
-                txtTime.setText("seconds remaining: " + millisUntilFinished / 1000);
+                txtTime.setText(String.format("%s%d", getString(R.string.remaining_time), (millisUntilFinished / 1000)));
             }
 
             @Override
