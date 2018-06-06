@@ -29,7 +29,6 @@ public class DifficultyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_difficulty);
         bindUI();
 
         ocl = new Button.OnClickListener() {
@@ -84,6 +83,7 @@ public class DifficultyActivity extends AppCompatActivity {
     }
 
     private void bindUI() {
+        setContentView(R.layout.activity_difficulty);
         Bundle data = getIntent().getExtras();
         name = (String)data.get("NAME");
         age = (String)data.get("AGE");

@@ -11,19 +11,19 @@ public class Card extends android.support.v7.widget.AppCompatImageButton {
     private int imageID;
     private boolean isShowen = false;
 
-    public Card(Context context) {
+    public Card(Context context, int imageID) {
         super(context);
-        this.setImageResource(R.drawable.background_grey);
+        this.imageID =imageID;
+        super.setImageResource(R.drawable.background_grey);
     }
 
     public void flip() {
+        setFlipped(!isFlipped);
         if(!this.isFlipped()) {
-            this.setImageResource(imageID);
-            this.setFlipped(true);
+            this.setImageResource(R.drawable.background_grey);
         }
         else {
-            this.setImageResource(R.drawable.background_grey);
-            this.setFlipped(false);
+            this.setImageResource(imageID);
         }
     }
 
@@ -36,17 +36,15 @@ public class Card extends android.support.v7.widget.AppCompatImageButton {
     }
 
     private void setFlipped(boolean flipped) {
-        isFlipped = flipped;
+        this.isFlipped = flipped;
     }
 
     public boolean isShowen() {
         return isShowen;
     }
 
-    public void setShowen() {
-        isShowen = true;
-        this.setEnabled(false);
-        this.setClickable(false);
+    public void setShowen(boolean isShowen) {
+        this.isShowen = true;
     }
 
     @Override
