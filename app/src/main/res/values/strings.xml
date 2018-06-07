@@ -12,4 +12,5 @@
     <string name="enter_your_name">Enter Your Name</string>
     <string name="enter_your_age">Enter Your Age</string>
     <string name="remaining_time">seconds remaining:</string>
+    <string name="score_txt">Score: </string>
 </resources>

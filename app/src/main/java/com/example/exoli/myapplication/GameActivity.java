@@ -19,8 +19,10 @@ import tyrantgit.explosionfield.ExplosionField;
 
 public class GameActivity extends AppCompatActivity {
 
-    private static final int FLIP_TIME = 500;
+    private static final int FLIP_TIME = 300;
     private static final int FINISH_DELAY = 2000;
+    private static final float RAISE_SCORE = 1.1f;
+    private static final float LOWER_SCORE = 0.1f;
     private String name;
     private GridLayout gridLayout;
     private int[] images;
@@ -28,11 +30,14 @@ public class GameActivity extends AppCompatActivity {
     private ArrayList<Card> cardsArrayList;
     private TextView txtTime;
     private TextView txtName;
+    private TextView txtScore;
+    private float score = 0f;
     private Card card1;
     private Card card2;
     private int counter = 0;
     private Handler handler = new Handler();
     private CountDownTimer gameTime;
+    private long timeRemain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,9 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         gridLayout = (GridLayout)findViewById(R.id.glGame);
 
+        txtScore = (TextView) findViewById(R.id.txtScore);
+        txtScore.setText(String.format("%s %.1f", getString(R.string.score_txt), score));
+
         Bundle data = getIntent().getExtras();
         name = data.getString("NAME");
         gridLayout.setRowCount(data.getInt("ROWS"));
@@ -64,12 +72,13 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onTick(long millisUntilFinished) {
-                txtTime.setText(String.format("%s%d", getString(R.string.remaining_time), (millisUntilFinished / 1000)));
+                timeRemain = millisUntilFinished / 1000;
+                txtTime.setText(String.format("%s%d", getString(R.string.remaining_time), timeRemain));
             }
 
             @Override
             public void onFinish() {
-                Toast.makeText(GameActivity.this, R.string.game_lose, Toast.LENGTH_LONG).show();
+                Toast.makeText(GameActivity.this, R.string.game_lose, Toast.LENGTH_SHORT).show();
                 enableCards(false);
                 ExplosionField explosionField = ExplosionField.attach2Window(GameActivity.this);
                 explosionField.explode(gridLayout);
@@ -152,7 +161,8 @@ public class GameActivity extends AppCompatActivity {
             if (!cardsArrayList.get(i).isShowen())
                 return;
         }
-        gameTime.cancel();
+        score = score + timeRemain;
+        txtScore.setText(String.format("%s %.1f", getString(R.string.score_txt), score));
         Toast.makeText(GameActivity.this, R.string.game_win, Toast.LENGTH_SHORT).show();
         enableCards(false);
         handler.postDelayed(new Runnable() {
@@ -174,6 +184,8 @@ public class GameActivity extends AppCompatActivity {
                     card2.setEnabled(false);
                     card1.setClickable(false);
                     card2.setClickable(false);
+                    score += RAISE_SCORE;
+                    txtScore.setText(String.format("%s %.1f", getString(R.string.score_txt), score));
                     card1 = null;
                     card2 = null;
                     checkGameOver();
@@ -184,6 +196,10 @@ public class GameActivity extends AppCompatActivity {
                         public void run() {
                             card1.flip();
                             card2.flip();
+                            if(score > LOWER_SCORE) {
+                                score -= LOWER_SCORE;
+                                txtScore.setText(String.format("%s %.1f", getString(R.string.score_txt), score));
+                            }
                             card1 = null;
                             card2 = null;
                             enableCards(true);
