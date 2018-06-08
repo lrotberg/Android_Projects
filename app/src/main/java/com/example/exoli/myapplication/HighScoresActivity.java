@@ -92,5 +92,13 @@ public class HighScoresActivity extends AppCompatActivity {
         public int getCount() {
             return NUM_OF_PAGES;
         }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position == 0)
+                return getString(R.string.tab_table);
+            else
+                return getString(R.string.tab_map);
+        }
     }
 }

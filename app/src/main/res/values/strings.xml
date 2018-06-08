@@ -22,4 +22,6 @@
     <string name="intent_rows">ROWS</string>
     <string name="intent_cols">COLS</string>
     <string name="intent_time">TIME</string>
+    <string name="tab_table">TABLE</string>
+    <string name="tab_map">MAP</string>
 </resources>

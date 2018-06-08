@@ -37,15 +37,12 @@ public class DifficultyActivity extends AppCompatActivity {
                 int id = v.getId();
                 switch (id) {
                     case R.id.btnEasy:
-                        //goToEasyMode();
                         goToGameActivity(name, EASY_ROWS, EASY_COLS, EASY_TIME);
                         break;
                     case R.id.btnMedium:
-                        //goToMediumMode();
                         goToGameActivity(name, MEDIUM_ROWS_COLS, MEDIUM_ROWS_COLS, MEDIUM_TIME);
                         break;
                     case R.id.btnHard:
-                        //goToHardMode();
                         goToGameActivity(name, HARD_ROWS, HARD_COLS, HARD_TIME);
                         break;
                 }
@@ -67,40 +64,11 @@ public class DifficultyActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    private void goToEasyMode() {
-//        Intent  intent = new Intent(this, GameActivity.class);
-//        intent.putExtra(getString(R.string.intent_name) ,name);
-//        intent.putExtra(getString(R.string.intent_rows), EASY_ROWS);
-//        intent.putExtra(getString(R.string.intent_cols), EASY_COLS);
-//        intent.putExtra(getString(R.string.intent_time), EASY_TIME);
-//        startActivity(intent);
-//    }
-//
-//    private void goToMediumMode() {
-//        Intent  intent = new Intent(this, GameActivity.class);
-//        intent.putExtra(getString(R.string.intent_name) ,name);
-//        intent.putExtra(getString(R.string.intent_rows), MEDIUM_ROWS_COLS);
-//        intent.putExtra(getString(R.string.intent_cols), MEDIUM_ROWS_COLS);
-//        intent.putExtra(getString(R.string.intent_time), MEDIUM_TIME);
-//        startActivity(intent);
-//    }
-//
-//    private void goToHardMode() {
-//        Intent  intent = new Intent(this, GameActivity.class);
-//        intent.putExtra(getString(R.string.intent_name) ,name);
-//        intent.putExtra(getString(R.string.intent_rows), HARD_ROWS);
-//        intent.putExtra(getString(R.string.intent_cols), HARD_COLS);
-//        intent.putExtra(getString(R.string.intent_time), HARD_TIME);
-//        startActivity(intent);
-//    }
-
-
-
     private void bindUI() {
         setContentView(R.layout.activity_difficulty);
         Bundle data = getIntent().getExtras();
-        name = (String)data.get("NAME");
-        age = (String)data.get("AGE");
+        name = (String)data.get(getString(R.string.intent_name));
+        age = (String)data.get(getString(R.string.intent_age));
         str = String.format("Hello %s(%s) please choose a difficulty", name, age);
 
         txt = (TextView)findViewById(R.id.txt1);
