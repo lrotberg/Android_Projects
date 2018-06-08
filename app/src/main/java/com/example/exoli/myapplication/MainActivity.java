@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtName;
     private TextView txtAge;
     private Button btnSubmit;
+    private Button btnHighscores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +33,20 @@ public class MainActivity extends AppCompatActivity {
                     goToDifficultyActivity();
             }
         });
+
+        btnHighscores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HighScoresActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void goToDifficultyActivity() {
         Intent  intent = new Intent(this, DifficultyActivity.class);
-        intent.putExtra("NAME" ,edtName.getText().toString());
-        intent.putExtra("AGE" ,edtAge.getText().toString());
+        intent.putExtra(getString(R.string.intent_name) ,edtName.getText().toString());
+        intent.putExtra(getString(R.string.intent_age) ,edtAge.getText().toString());
         startActivity(intent);
     }
 
@@ -48,5 +57,6 @@ public class MainActivity extends AppCompatActivity {
         txtName = (TextView)findViewById(R.id.txtName);
         txtAge = (TextView)findViewById(R.id.txtAge);
         btnSubmit = (Button)findViewById(R.id.btnSubmit);
+        btnHighscores = (Button) findViewById(R.id.btnHighscores);
     }
 }

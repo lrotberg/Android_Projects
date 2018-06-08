@@ -37,13 +37,16 @@ public class DifficultyActivity extends AppCompatActivity {
                 int id = v.getId();
                 switch (id) {
                     case R.id.btnEasy:
-                        goToEasyMode();
+                        //goToEasyMode();
+                        goToGameActivity(name, EASY_ROWS, EASY_COLS, EASY_TIME);
                         break;
                     case R.id.btnMedium:
-                        goToMediumMode();
+                        //goToMediumMode();
+                        goToGameActivity(name, MEDIUM_ROWS_COLS, MEDIUM_ROWS_COLS, MEDIUM_TIME);
                         break;
                     case R.id.btnHard:
-                        goToHardMode();
+                        //goToHardMode();
+                        goToGameActivity(name, HARD_ROWS, HARD_COLS, HARD_TIME);
                         break;
                 }
             }
@@ -55,32 +58,43 @@ public class DifficultyActivity extends AppCompatActivity {
 
     }
 
-    private void goToEasyMode() {
+    private void goToGameActivity(String name, int rows, int cols, int time) {
         Intent  intent = new Intent(this, GameActivity.class);
-        intent.putExtra("NAME" ,name);
-        intent.putExtra("ROWS", EASY_ROWS);
-        intent.putExtra("COLS", EASY_COLS);
-        intent.putExtra("TIME", EASY_TIME);
+        intent.putExtra(getString(R.string.intent_name) ,name);
+        intent.putExtra(getString(R.string.intent_rows), rows);
+        intent.putExtra(getString(R.string.intent_cols), cols);
+        intent.putExtra(getString(R.string.intent_time), time);
         startActivity(intent);
     }
 
-    private void goToMediumMode() {
-        Intent  intent = new Intent(this, GameActivity.class);
-        intent.putExtra("NAME" ,name);
-        intent.putExtra("ROWS", MEDIUM_ROWS_COLS);
-        intent.putExtra("COLS", MEDIUM_ROWS_COLS);
-        intent.putExtra("TIME", MEDIUM_TIME);
-        startActivity(intent);
-    }
+//    private void goToEasyMode() {
+//        Intent  intent = new Intent(this, GameActivity.class);
+//        intent.putExtra(getString(R.string.intent_name) ,name);
+//        intent.putExtra(getString(R.string.intent_rows), EASY_ROWS);
+//        intent.putExtra(getString(R.string.intent_cols), EASY_COLS);
+//        intent.putExtra(getString(R.string.intent_time), EASY_TIME);
+//        startActivity(intent);
+//    }
+//
+//    private void goToMediumMode() {
+//        Intent  intent = new Intent(this, GameActivity.class);
+//        intent.putExtra(getString(R.string.intent_name) ,name);
+//        intent.putExtra(getString(R.string.intent_rows), MEDIUM_ROWS_COLS);
+//        intent.putExtra(getString(R.string.intent_cols), MEDIUM_ROWS_COLS);
+//        intent.putExtra(getString(R.string.intent_time), MEDIUM_TIME);
+//        startActivity(intent);
+//    }
+//
+//    private void goToHardMode() {
+//        Intent  intent = new Intent(this, GameActivity.class);
+//        intent.putExtra(getString(R.string.intent_name) ,name);
+//        intent.putExtra(getString(R.string.intent_rows), HARD_ROWS);
+//        intent.putExtra(getString(R.string.intent_cols), HARD_COLS);
+//        intent.putExtra(getString(R.string.intent_time), HARD_TIME);
+//        startActivity(intent);
+//    }
 
-    private void goToHardMode() {
-        Intent  intent = new Intent(this, GameActivity.class);
-        intent.putExtra("NAME" ,name);
-        intent.putExtra("ROWS", HARD_ROWS);
-        intent.putExtra("COLS", HARD_COLS);
-        intent.putExtra("TIME", HARD_TIME);
-        startActivity(intent);
-    }
+
 
     private void bindUI() {
         setContentView(R.layout.activity_difficulty);
