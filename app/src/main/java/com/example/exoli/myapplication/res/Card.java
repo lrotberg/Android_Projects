@@ -1,9 +1,8 @@
-package com.example.exoli.myapplication;
+package com.example.exoli.myapplication.res;
 
 import android.content.Context;
-import android.util.AttributeSet;
 
-import java.util.Objects;
+import com.example.exoli.myapplication.R;
 
 public class Card extends android.support.v7.widget.AppCompatImageButton {
 

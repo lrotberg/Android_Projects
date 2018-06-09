@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.exoli.myapplication.Card;
+import com.example.exoli.myapplication.res.Card;
 import com.example.exoli.myapplication.R;
 
 import java.util.ArrayList;
