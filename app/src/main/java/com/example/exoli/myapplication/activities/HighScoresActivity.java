@@ -1,4 +1,4 @@
-package com.example.exoli.myapplication;
+package com.example.exoli.myapplication.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +10,10 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.exoli.myapplication.R;
+import com.example.exoli.myapplication.fragments.HighscoresMap;
+import com.example.exoli.myapplication.fragments.HighscoresTable;
 
 public class HighScoresActivity extends AppCompatActivity {
 

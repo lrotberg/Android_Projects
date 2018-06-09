@@ -1,4 +1,4 @@
-package com.example.exoli.myapplication;
+package com.example.exoli.myapplication.activities;
 
 import android.content.Context;
 import android.os.CountDownTimer;
@@ -10,6 +10,9 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.exoli.myapplication.Card;
+import com.example.exoli.myapplication.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

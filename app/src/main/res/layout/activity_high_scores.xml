@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/background_style"
-    tools:context="com.example.exoli.myapplication.HighScoresActivity">
+    tools:context="com.example.exoli.myapplication.activities.HighScoresActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
