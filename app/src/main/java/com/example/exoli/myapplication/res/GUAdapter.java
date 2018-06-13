@@ -26,16 +26,14 @@ public class GUAdapter extends ArrayAdapter<GameUser> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //get the persons information
         String name = getItem(position).getName();
         Float score = getItem(position).getScore();
         String diff = getItem(position).getDifficulty();
 
-        //Create the person object with the information
         GameUser person = new GameUser(name,score,diff);
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        convertView = inflater.inflate(res,parent,false);
+        convertView = inflater.inflate(res, parent,false);
 
         TextView txtName = (TextView) convertView.findViewById(R.id.user_name);
         TextView txtScore = (TextView) convertView.findViewById(R.id.user_score);

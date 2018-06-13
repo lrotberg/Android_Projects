@@ -6,10 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.exoli.myapplication.R;
+public class DBController extends SQLiteOpenHelper {
 
-public class DBControl extends SQLiteOpenHelper {
-
+    private static final String TAG = "DBController";
     private static final String TABLE = "table_scores";
     private static final String COL_NAME = "name";
     private static final int COL_NUM_NAME = 1;
@@ -43,35 +42,31 @@ public class DBControl extends SQLiteOpenHelper {
         return COL_NUM_LONGITUDE;
     }
 
-    public DBControl(Context context) {
+    public DBController(Context context) {
         super(context, TABLE, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTable = R.string.create_table + " " + TABLE + "(" + R.string.primary_key_incorrect
-                + "," + COL_NAME + " " + R.string.sql_text + ", " + COL_SCORE + " " + R.string.sql_float
-                + ", " + COL_DIFF + " " + R.string.sql_integer + ", " + COL_LATITUDE + " "
-                + R.string.sql_real + ", " + COL_LONGITUDE + " " + R.string.sql_real + ")";
+        String createTable = "CREATE TABLE "+TABLE+" (ID INTEGER PRIMARY KEY AUTOINCREMENT, "+COL_NAME+" TEXT, "+COL_SCORE+" REAL,"
+                +COL_LATITUDE+" REAL, "+COL_LONGITUDE+" REAL )";
         db.execSQL(createTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String dropTable =  R.string.drop_table + " " + TABLE;
+        String dropTable = "DROP IF TABLE EXISTS "+TABLE;
         db.execSQL(dropTable);
     }
 
     public Cursor highestScores(){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = R.string.sql_select + " " + R.string.sql_astrix + " "
-                + R.string.sql_from + TABLE + " " + R.string.sql_order_by + " " + COL_SCORE
-                + " " + R.string.sql_decent + " " + R.string.sql_limit + NUM_OF_SCORES_TO_SHOW;
+        String query = "SELECT * FROM "+TABLE+" ORDER BY "+COL_SCORE +" DESC LIMIT " + NUM_OF_SCORES_TO_SHOW;
         Cursor data = db.rawQuery(query,null);
         return data;
     }
 
-    public boolean addScore(String name, int diff, long score, double lat, double lng){
+    public boolean addScore(String name, int diff, float score, double lat, double lng){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_NAME, name);

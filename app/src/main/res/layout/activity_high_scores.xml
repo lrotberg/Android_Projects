@@ -2,10 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context="com.example.exoli.myapplication.activities.HighScoresActivity"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    style="@style/background_style">
 
     <fragment
         android:id="@+id/frag_map"
@@ -20,13 +19,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frag_table"
-        tools:context="com.example.idoshapira_mbp.memorygame.ScoreMapsActivity" />
+        tools:context="com.example.exoli.myapplication.fragments.HighscoresMap" />
 
     <fragment
         android:id="@+id/frag_table"
-        android:name="com.example."
-        android:layout_width="306dp"
-        android:layout_height="213dp"
+        android:name="com.example.exoli.myapplication.fragments.HighscoresTable"
+        android:layout_width="348dp"
+        android:layout_height="226dp"
         android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"

@@ -1,7 +1,6 @@
 package com.example.exoli.myapplication.fragments;
 
 import android.database.Cursor;
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -12,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.exoli.myapplication.R;
-import com.example.exoli.myapplication.res.DBControl;
+import com.example.exoli.myapplication.res.DBController;
 import com.example.exoli.myapplication.res.GUAdapter;
 import com.example.exoli.myapplication.res.GameUser;
 
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 
 public class HighscoresTable extends Fragment{
 
-    DBControl dbControl;
+    DBController dbController;
 
 
     public HighscoresTable(){
@@ -37,18 +36,15 @@ public class HighscoresTable extends Fragment{
         TextView textView = new TextView(getContext());
         textView.setText(R.string.highest_scores);
 
-//        listView.addHeaderView(textView);
-//        listView.setBackgroundColor(Color.parseColor("#ffffff"));
+        dbController = new DBController(getContext());
 
-        dbControl = new DBControl(getContext());
-
-        Cursor scores = dbControl.highestScores();
+        Cursor scores = dbController.highestScores();
         ArrayList<GameUser> listDataPlayers = new ArrayList<>();
         while(scores.moveToNext()){
-            int diff = scores.getInt(DBControl.getColNumDiff());
+            int diff = scores.getInt(DBController.getColNumDiff());
 
-            listDataPlayers.add(new GameUser(scores.getString(DBControl.getColNumName()),
-                    scores.getFloat(DBControl.getColNumScore()), getDifficulty(diff)));
+            listDataPlayers.add(new GameUser(scores.getString(DBController.getColNumName()),
+                    scores.getFloat(DBController.getColNumScore()), getDifficulty(diff)));
         }
 
         GUAdapter adapter = new GUAdapter(getContext(),R.layout.game_user_layout,listDataPlayers);

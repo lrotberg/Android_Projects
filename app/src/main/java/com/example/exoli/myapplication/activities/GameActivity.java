@@ -1,10 +1,20 @@
 package com.example.exoli.myapplication.activities;
 
+import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -13,6 +23,8 @@ import android.widget.Toast;
 
 import com.example.exoli.myapplication.res.Card;
 import com.example.exoli.myapplication.R;
+import com.example.exoli.myapplication.res.DBController;
+import com.example.exoli.myapplication.res.SensorService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +32,7 @@ import java.util.Collections;
 import tyrantgit.explosionfield.ExplosionField;
 
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements SensorService.SensorServiceListener {
 
     private static final int FLIP_TIME = 300;
     private static final int FINISH_DELAY = 2000;
@@ -41,17 +53,97 @@ public class GameActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private CountDownTimer gameTime;
     private long timeRemain;
+    private DBController dbController;
+    private Location lastKnownLocation = null;
+    private float[] startValues;
+    private static boolean gameIsOver;
+    private static final int RADIUS = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        bindService(new Intent(this ,SensorService.class), serviceConnection, Context.BIND_AUTO_CREATE);
+
+        dbController = new DBController(this);
+
+        gameIsOver = false;
+
         bindUI();
+    }
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            if (iBinder instanceof SensorService.SensorServiceBinder) {
+                SensorService.SensorServiceBinder sensorServiceBinder = (SensorService.SensorServiceBinder) iBinder;
+                sensorServiceBinder.setListener(GameActivity.this);
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            unbindService(serviceConnection);
+        }
+    };
+
+    @Override
+    public void onSensorChanged(float[] values) {
+        if(startValues == null) {
+            startValues = new float[3];
+            startValues[0] = values[0];
+            startValues[1] = values[1];
+            startValues[2] = values[2];
+        }
+        if(gameIsOver)
+            return;
+
+        float x = Math.abs(values[0]);
+        float y = Math.abs(values[1]);
+        float z = Math.abs(values[2]);
+        float sx = Math.abs(startValues[0]);
+        float sy = Math.abs(startValues[1]);
+        float sz = Math.abs(startValues[2]);
+
+        if(x > sx + RADIUS || y > sy + RADIUS || z > sz + RADIUS)
+        {
+            addCardsToGame();
+        }
+    }
+
+    private void addCardsToGame(){
+        boolean cardsAdded = false;
+        Card card = null;
+        int counter = 0;
+        for(int i = 0; i < cardsArrayList.size() && counter < 2; i++) {
+            if(cardsArrayList.get(i).isShowen() && counter == 0){
+                card = cardsArrayList.get(i);
+                card.setEnabled(true);
+                card.setClickable(true);
+                card.setShowen(false);
+                card.flip();
+                counter++;
+                cardsAdded = true;
+            }
+            else if(counter > 0 && cardsArrayList.get(i).isShowen()){
+                if(cardsArrayList.get(i).equals(card)){
+                    cardsArrayList.get(i).setEnabled(true);
+                    cardsArrayList.get(i).setClickable(true);
+                    cardsArrayList.get(i).setShowen(false);
+                    cardsArrayList.get(i).flip();
+                    counter++;
+                    cardsAdded = true;
+                }
+            }
+        }
+        if(cardsAdded)
+            Toast.makeText(this, R.string.card_return, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        unbindService(serviceConnection);
         gameTime.cancel();
     }
 
@@ -81,10 +173,11 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Toast.makeText(GameActivity.this, R.string.game_lose, Toast.LENGTH_SHORT).show();
-                enableCards(false);
                 ExplosionField explosionField = ExplosionField.attach2Window(GameActivity.this);
                 explosionField.explode(gridLayout);
+                Toast.makeText(GameActivity.this, R.string.game_lose, Toast.LENGTH_SHORT).show();
+                enableCards(false);
+
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -165,14 +258,57 @@ public class GameActivity extends AppCompatActivity {
                 return;
         }
         score = score + timeRemain;
+        winAnimation();
+
         txtScore.setText(String.format("%s %.1f", getString(R.string.score_txt), score));
+
+        getLocation();
+
+        dbController.addScore(name, getDiff(), score, lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+
         Toast.makeText(GameActivity.this, R.string.game_win, Toast.LENGTH_SHORT).show();
         enableCards(false);
+
         handler.postDelayed(new Runnable() {
             public void run() {
                 finish();
             }
         }, FINISH_DELAY);
+    }
+
+    private void winAnimation() {
+        for (int i = 0 ; i < cardsArrayList.size() ; i++) {
+            cardsArrayList.get(i).animate().rotation(1800).setDuration(2000);
+        }
+    }
+
+    private int getDiff() {
+        switch (numOfCouples) {
+            case 4:
+                return 1;
+            case 8:
+                return 2;
+            case 12:
+                return 3;
+            default:
+                return -1;
+        }
+    }
+
+    private void getLocation() {
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.GPS_PROVIDER;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        }
+        try {
+            lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+            lastKnownLocation.getLongitude();
+        } catch (Exception e) {
+            lastKnownLocation = new Location("default location");
+            lastKnownLocation.setLatitude(HighScoresActivity.getDefaultLocation().latitude);
+            lastKnownLocation.setLatitude(HighScoresActivity.getDefaultLocation().longitude);
+        }
     }
 
     private void checkMatched() {
@@ -212,4 +348,5 @@ public class GameActivity extends AppCompatActivity {
             }
         }
     }
+
 }
