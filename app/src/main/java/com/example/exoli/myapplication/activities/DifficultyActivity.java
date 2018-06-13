@@ -67,7 +67,7 @@ public class DifficultyActivity extends AppCompatActivity {
     }
 
     private void goToGameActivity(String name, int rows, int cols, int time) {
-        Intent  intent = new Intent(this, GameActivity.class);
+        Intent  intent = new Intent(DifficultyActivity.this, GameActivity.class);
         intent.putExtra(getString(R.string.intent_name) ,name);
         intent.putExtra(getString(R.string.intent_rows), rows);
         intent.putExtra(getString(R.string.intent_cols), cols);
