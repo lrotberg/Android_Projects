@@ -28,26 +28,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtName;
     private TextView txtAge;
     private Button btnSubmit;
-    private Button btnHighscores;
-//    private LocationManager locationManager;
-//    private LocationListener locationListener;
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//
-//        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 100, locationListener);
-//            }
-//        }
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bindUI();
+
+        getLocationPermission();
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,49 +47,16 @@ public class MainActivity extends AppCompatActivity {
                     goToDifficultyActivity();
             }
         });
-
-        btnHighscores.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-//        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-//
-//        locationListener = new LocationListener() {
-//            @Override
-//            public void onLocationChanged(Location location) {
-//                Toast.makeText(MainActivity.this, location.toString(), Toast.LENGTH_SHORT).show();
-////                Log.i("location", location.toString());
-//            }
-//
-//            @Override
-//            public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//            }
-//
-//            @Override
-//            public void onProviderEnabled(String provider) {
-//
-//            }
-//
-//            @Override
-//            public void onProviderDisabled(String provider) {
-//
-//            }
-//        };
-//
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-//        }
-//        else
-//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
    }
 
+    private void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+    }
+
     private void goToDifficultyActivity() {
-        Intent  intent = new Intent(this, DifficultyActivity.class);
+        Intent  intent = new Intent(MainActivity.this, DifficultyActivity.class);
         intent.putExtra(getString(R.string.intent_name) ,edtName.getText().toString());
         intent.putExtra(getString(R.string.intent_age) ,edtAge.getText().toString());
         startActivity(intent);
@@ -115,6 +69,5 @@ public class MainActivity extends AppCompatActivity {
         txtName = (TextView)findViewById(R.id.txtName);
         txtAge = (TextView)findViewById(R.id.txtAge);
         btnSubmit = (Button)findViewById(R.id.btnSubmit);
-        btnHighscores = (Button) findViewById(R.id.btnHighscores);
     }
 }

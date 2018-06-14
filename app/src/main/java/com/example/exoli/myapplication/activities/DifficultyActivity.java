@@ -27,6 +27,7 @@ public class DifficultyActivity extends AppCompatActivity {
     private Button btnMedium;
     private Button btnHard;
     private Button.OnClickListener ocl;
+    private Button btnHighscores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,14 @@ public class DifficultyActivity extends AppCompatActivity {
             }
         };
 
+        btnHighscores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DifficultyActivity.this, HighScoresActivity.class);
+                startActivity(intent);
+            }
+        });
+
         btnEasy.setOnClickListener(ocl);
         btnMedium.setOnClickListener(ocl);
         btnHard.setOnClickListener(ocl);
@@ -58,7 +67,7 @@ public class DifficultyActivity extends AppCompatActivity {
     }
 
     private void goToGameActivity(String name, int rows, int cols, int time) {
-        Intent  intent = new Intent(this, GameActivity.class);
+        Intent  intent = new Intent(DifficultyActivity.this, GameActivity.class);
         intent.putExtra(getString(R.string.intent_name) ,name);
         intent.putExtra(getString(R.string.intent_rows), rows);
         intent.putExtra(getString(R.string.intent_cols), cols);
@@ -79,5 +88,6 @@ public class DifficultyActivity extends AppCompatActivity {
         btnEasy = (Button)findViewById(R.id.btnEasy);
         btnMedium = (Button)findViewById(R.id.btnMedium);
         btnHard = (Button)findViewById(R.id.btnHard);
+        btnHighscores = (Button) findViewById(R.id.btnHighscores);
     }
 }
