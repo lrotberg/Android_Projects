@@ -13,8 +13,6 @@ public class DBController extends SQLiteOpenHelper {
     private static final String TABLE = "table_scores";
     private static final String COL_NAME = "name";
     private static final int COL_NUM_NAME = 1;
-//    private static final String COL_DIFF = "diff";
-//    private static final int COL_NUM_DIFF = 2;
     private static final String COL_SCORE = "score";
     private static final int COL_NUM_SCORE = 2;
     private static final String COL_LATITUDE = "lat";
@@ -26,10 +24,6 @@ public class DBController extends SQLiteOpenHelper {
     public static int getColNumName() {
         return COL_NUM_NAME;
     }
-
-//    public static int getColNumDiff() {
-//        return COL_NUM_DIFF;
-//    }
 
     public static int getColNumScore() {
         return COL_NUM_SCORE;
@@ -72,7 +66,6 @@ public class DBController extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_NAME, name);
         contentValues.put(COL_SCORE, score);
-        //contentValues.put(COL_DIFF, diff);
         contentValues.put(COL_LATITUDE , lat);
         contentValues.put(COL_LONGITUDE, lng);
 

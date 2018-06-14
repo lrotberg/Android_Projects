@@ -12,11 +12,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 
 import com.example.exoli.myapplication.R;
 import com.example.exoli.myapplication.res.DBController;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.PlaceDetectionClient;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,6 +39,8 @@ public class HighScoresActivity extends AppCompatActivity implements OnMapReadyC
     private Location lastKnownLocation;
     private static LatLng home = new LatLng(32.0298225, 34.8005623);
     private boolean permissionGranted;
+    private GeoDataClient mGeoDataClient;
+    private PlaceDetectionClient mPlaceDetectionClient;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private SupportMapFragment supportMapFragmen;
     private DBController dbController;
@@ -47,6 +53,11 @@ public class HighScoresActivity extends AppCompatActivity implements OnMapReadyC
 
         dbController = new DBController(this);
 
+        // Construct a GeoDataClient.
+        mGeoDataClient = Places.getGeoDataClient(this, null);
+        // Construct a PlaceDetectionClient.
+        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         supportMapFragmen = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.frag_map);
         supportMapFragmen.getMapAsync(this);
@@ -57,50 +68,57 @@ public class HighScoresActivity extends AppCompatActivity implements OnMapReadyC
         return home;
     }
 
-    //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_high_scores, menu);
-//        return true;
-//    }
-
     @Override
     public void onMapReady(GoogleMap map) {
         this.map = map;
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            permissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
-        if (this.map != null) {
-            try {
-                if (permissionGranted) {
-                    this.map.setMyLocationEnabled(true);
-                    this.map.getUiSettings().setMyLocationButtonEnabled(true);
-                } else {
-                    this.map.setMyLocationEnabled(false);
-                    this.map.getUiSettings().setMyLocationButtonEnabled(false);
-                    lastKnownLocation = null;
-                }
-            } catch (SecurityException e) {
-                Log.e("Exception: %s", e.getMessage());
-            }
-        }
+        updateLocation();
 
         getLocation();
 
         fillScores();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    private void updateLocation() {
+        if (map == null)
+            return;
+        try {
+            if (permissionGranted) {
+                map.setMyLocationEnabled(true);
+                map.getUiSettings().setMyLocationButtonEnabled(true);
+            } else {
+                map.setMyLocationEnabled(false);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+                lastKnownLocation = null;
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
 
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                permissionGranted = true;
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        permissionGranted = false;
+
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissionGranted = true;
+                }
             }
         }
+        updateLocation();
     }
 
     private void fillScores() {
@@ -111,7 +129,7 @@ public class HighScoresActivity extends AppCompatActivity implements OnMapReadyC
                     scores.getDouble(DBController.getColNumLongitude()));
             map.addMarker(new MarkerOptions().position(tempLocation)
                     .title(scores.getString(DBController.getColNumName()))
-                    .snippet("score: " + scores.getFloat(DBController.getColNumScore()) + getCompleteAddressString(tempLocation.latitude,tempLocation.longitude)));
+                    .snippet("score: " + scores.getFloat(DBController.getColNumScore()) + getCompleteAddressString(tempLocation.latitude, tempLocation.longitude)));
         }
     }
 
@@ -150,11 +168,11 @@ public class HighScoresActivity extends AppCompatActivity implements OnMapReadyC
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                             } catch (NullPointerException e) {
-                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(home, DEFAULT_ZOOM));
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(getDefaultLocation(), DEFAULT_ZOOM));
                                 map.getUiSettings().setMyLocationButtonEnabled(false);
                             }
                         } else {
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(home, DEFAULT_ZOOM));
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(getDefaultLocation(), DEFAULT_ZOOM));
                             map.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }

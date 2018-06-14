@@ -2,15 +2,17 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/background_style">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkerBlue">
 
 
     <TextView
         android:id="@+id/user_name"
         android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="@string/user_name"
         android:textAlignment="center"
@@ -23,29 +25,22 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
         android:orientation="vertical"
         android:textColor="@color/yellow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.951"
         app:layout_constraintStart_toEndOf="@+id/user_name"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/user_score"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="@string/user_score"
             android:textColor="@color/yellow" />
 
-        <TextView
-            android:id="@+id/user_location"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="center"
-            android:text="@string/user_location"
-            android:textColor="@color/yellow" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

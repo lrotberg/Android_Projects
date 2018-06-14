@@ -136,6 +136,8 @@ public class GameActivity extends AppCompatActivity implements SensorService.Sen
                     //cardsAdded = true;
                 }
             }
+            if (counter == 2)
+                break;
         }
         if(cardsAdded)
             Toast.makeText(this, R.string.card_return, Toast.LENGTH_SHORT).show();
@@ -178,7 +180,6 @@ public class GameActivity extends AppCompatActivity implements SensorService.Sen
                 explosionField.explode(gridLayout);
                 Toast.makeText(GameActivity.this, R.string.game_lose, Toast.LENGTH_SHORT).show();
                 enableCards(false);
-
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -283,19 +284,6 @@ public class GameActivity extends AppCompatActivity implements SensorService.Sen
         }
     }
 
-//    private int getDiff() {
-//        switch (numOfCouples) {
-//            case 4:
-//                return 1;
-//            case 8:
-//                return 2;
-//            case 12:
-//                return 3;
-//            default:
-//                return -1;
-//        }
-//    }
-
     private void getLocation() {
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         String locationProvider = LocationManager.GPS_PROVIDER;
@@ -305,11 +293,12 @@ public class GameActivity extends AppCompatActivity implements SensorService.Sen
         }
         try {
             lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+            lastKnownLocation.getLatitude();
             lastKnownLocation.getLongitude();
         } catch (Exception e) {
-            lastKnownLocation = new Location("default location");
-            lastKnownLocation.setLatitude(32.113819);
-            lastKnownLocation.setLatitude(34.817794);
+            lastKnownLocation = new Location(String.valueOf(HighScoresActivity.getDefaultLocation()));
+            lastKnownLocation.setLatitude(HighScoresActivity.getDefaultLocation().latitude);
+            lastKnownLocation.setLongitude(HighScoresActivity.getDefaultLocation().longitude);
         }
     }
 

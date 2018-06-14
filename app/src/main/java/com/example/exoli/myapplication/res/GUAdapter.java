@@ -36,7 +36,6 @@ public class GUAdapter extends ArrayAdapter<GameUser> {
 
         TextView txtName = (TextView) convertView.findViewById(R.id.user_name);
         TextView txtScore = (TextView) convertView.findViewById(R.id.user_score);
-        TextView txtDiff = (TextView) convertView.findViewById(R.id.user_location);
 
         txtName.setText(name);
         txtScore.setText(score.toString());
