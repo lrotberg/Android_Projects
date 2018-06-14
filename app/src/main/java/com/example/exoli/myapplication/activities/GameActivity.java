@@ -34,6 +34,7 @@ import tyrantgit.explosionfield.ExplosionField;
 
 public class GameActivity extends AppCompatActivity implements SensorService.SensorServiceListener {
 
+    final String TAG = "GameBoardActivity";
     private static final int FLIP_TIME = 300;
     private static final int FINISH_DELAY = 2000;
     private static final float RAISE_SCORE = 1.1f;
@@ -56,18 +57,17 @@ public class GameActivity extends AppCompatActivity implements SensorService.Sen
     private DBController dbController;
     private Location lastKnownLocation = null;
     private float[] startValues;
-    private static boolean gameIsOver;
+    private static boolean gameOver;
     private static final int RADIUS = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         bindService(new Intent(this ,SensorService.class), serviceConnection, Context.BIND_AUTO_CREATE);
 
         dbController = new DBController(this);
 
-        gameIsOver = false;
+        gameOver = false;
 
         bindUI();
     }
@@ -89,13 +89,14 @@ public class GameActivity extends AppCompatActivity implements SensorService.Sen
 
     @Override
     public void onSensorChanged(float[] values) {
+
         if(startValues == null) {
             startValues = new float[3];
             startValues[0] = values[0];
             startValues[1] = values[1];
             startValues[2] = values[2];
         }
-        if(gameIsOver)
+        if(gameOver)
             return;
 
         float x = Math.abs(values[0]);
@@ -115,7 +116,7 @@ public class GameActivity extends AppCompatActivity implements SensorService.Sen
         boolean cardsAdded = false;
         Card card = null;
         int counter = 0;
-        for(int i = 0; i < cardsArrayList.size() && counter < 2; i++) {
+        for(int i = 0; i < cardsArrayList.size() && counter < 2 ; i++) {
             if(cardsArrayList.get(i).isShowen() && counter == 0){
                 card = cardsArrayList.get(i);
                 card.setEnabled(true);
@@ -132,7 +133,7 @@ public class GameActivity extends AppCompatActivity implements SensorService.Sen
                     cardsArrayList.get(i).setShowen(false);
                     cardsArrayList.get(i).flip();
                     counter++;
-                    cardsAdded = true;
+                    //cardsAdded = true;
                 }
             }
         }
@@ -264,7 +265,7 @@ public class GameActivity extends AppCompatActivity implements SensorService.Sen
 
         getLocation();
 
-        dbController.addScore(name, getDiff(), score, lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+        dbController.addScore(name, score, lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
 
         Toast.makeText(GameActivity.this, R.string.game_win, Toast.LENGTH_SHORT).show();
         enableCards(false);
@@ -282,32 +283,33 @@ public class GameActivity extends AppCompatActivity implements SensorService.Sen
         }
     }
 
-    private int getDiff() {
-        switch (numOfCouples) {
-            case 4:
-                return 1;
-            case 8:
-                return 2;
-            case 12:
-                return 3;
-            default:
-                return -1;
-        }
-    }
+//    private int getDiff() {
+//        switch (numOfCouples) {
+//            case 4:
+//                return 1;
+//            case 8:
+//                return 2;
+//            case 12:
+//                return 3;
+//            default:
+//                return -1;
+//        }
+//    }
 
     private void getLocation() {
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         String locationProvider = LocationManager.GPS_PROVIDER;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG,"No GPS - Turn on");
         }
         try {
             lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
             lastKnownLocation.getLongitude();
         } catch (Exception e) {
             lastKnownLocation = new Location("default location");
-            lastKnownLocation.setLatitude(HighScoresActivity.getDefaultLocation().latitude);
-            lastKnownLocation.setLatitude(HighScoresActivity.getDefaultLocation().longitude);
+            lastKnownLocation.setLatitude(32.113819);
+            lastKnownLocation.setLatitude(34.817794);
         }
     }
 

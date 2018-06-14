@@ -28,9 +28,8 @@ public class GUAdapter extends ArrayAdapter<GameUser> {
     public View getView(int position, View convertView, ViewGroup parent) {
         String name = getItem(position).getName();
         Float score = getItem(position).getScore();
-        String diff = getItem(position).getDifficulty();
 
-        GameUser person = new GameUser(name,score,diff);
+        //GameUser person = new GameUser(name,score,diff);
 
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView = inflater.inflate(res, parent,false);
@@ -41,7 +40,6 @@ public class GUAdapter extends ArrayAdapter<GameUser> {
 
         txtName.setText(name);
         txtScore.setText(score.toString());
-        txtDiff.setText(diff);
 
         return convertView;
     }

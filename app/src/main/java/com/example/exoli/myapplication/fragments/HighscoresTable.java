@@ -41,10 +41,9 @@ public class HighscoresTable extends Fragment{
         Cursor scores = dbController.highestScores();
         ArrayList<GameUser> listDataPlayers = new ArrayList<>();
         while(scores.moveToNext()){
-            int diff = scores.getInt(DBController.getColNumDiff());
 
             listDataPlayers.add(new GameUser(scores.getString(DBController.getColNumName()),
-                    scores.getFloat(DBController.getColNumScore()), getDifficulty(diff)));
+                    scores.getFloat(DBController.getColNumScore())));
         }
 
         GUAdapter adapter = new GUAdapter(getContext(),R.layout.game_user_layout,listDataPlayers);

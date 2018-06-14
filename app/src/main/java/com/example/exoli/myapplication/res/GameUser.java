@@ -4,12 +4,10 @@ public class GameUser {
 
     private String name;
     private float score;
-    private String difficulty;
 
-    public GameUser(String name, float score, String difficulty) {
+    public GameUser(String name, float score) {
         this.name = name;
         this.score = score;
-        this.difficulty = difficulty;
     }
 
     public String getName() {
@@ -28,11 +26,4 @@ public class GameUser {
         this.score = score;
     }
 
-    public String getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
 }

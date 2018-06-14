@@ -64,7 +64,7 @@ public class SensorService extends Service implements SensorEventListener {
     }
 
     public class SensorServiceBinder extends Binder {
-        public void setListener(SensorServiceListener listener) {
+       public void setListener(SensorServiceListener listener) {
             setSensorServiceListener(listener);
         }
     }

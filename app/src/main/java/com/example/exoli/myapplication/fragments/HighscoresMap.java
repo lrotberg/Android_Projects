@@ -14,13 +14,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class HighscoresMap extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap map;
+    private GoogleMap googleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frag_hs_map);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -28,12 +27,12 @@ public class HighscoresMap extends FragmentActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
+        this.googleMap = googleMap;
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
-        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        this.googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
 }
